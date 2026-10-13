@@ -1,0 +1,481 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* OKLCH Color Palette: LIVE VITALS (Dark Mission Control) */
+  --surface-base: oklch(0.16 0.02 260);
+  --surface-1: oklch(0.20 0.025 260);
+  --surface-2: oklch(0.24 0.025 260);
+  --surface-3: oklch(0.28 0.025 260);
+  --surface-overlay: oklch(0.14 0.02 260 / 0.85);
+
+  /* Signature Pulse Accent (Electric Lime-Mint) */
+  --pulse-mint: oklch(0.88 0.20 150);
+  --pulse-mint-dim: oklch(0.75 0.16 150);
+  --pulse-glow: oklch(0.88 0.20 150 / 0.22);
+  --pulse-glow-sm: oklch(0.88 0.20 150 / 0.12);
+  --pulse-dark: oklch(0.48 0.18 150);
+
+  /* Semantic Clinical Accents */
+  --signal-red: oklch(0.62 0.24 25);
+  --signal-red-glow: oklch(0.62 0.24 25 / 0.22);
+  --signal-amber: oklch(0.78 0.18 75);
+  --signal-amber-glow: oklch(0.78 0.18 75 / 0.22);
+
+  /* Typography Colors */
+  --text-primary: oklch(0.96 0.01 260);
+  --text-secondary: oklch(0.75 0.02 260);
+  --text-tertiary: oklch(0.55 0.02 260);
+  --text-inverse: oklch(0.12 0.02 260);
+
+  /* Hairlines & Inner-Borders */
+  --border-subtle: oklch(0.28 0.02 260 / 0.65);
+  --border-strong: oklch(0.36 0.025 260);
+  --border-highlight: oklch(1 0 0 / 0.08);
+
+  /* Light Theme Overrides (Warm Off-White for Family View) */
+  --family-base: oklch(0.965 0.01 85);
+  --family-card: oklch(0.99 0.005 85);
+  --family-ink: oklch(0.18 0.02 260);
+  --family-muted: oklch(0.42 0.02 260);
+  --family-border: oklch(0.88 0.01 85);
+  --family-pulse: oklch(0.46 0.18 150);
+
+  /* Strict Radii */
+  --radius-card: 14px;
+  --radius-chip: 999px;
+  --radius-input: 10px;
+
+  /* Typography Scales */
+  --font-display: 'Space Grotesk', -apple-system, sans-serif;
+  --font-body: 'Inter Tight', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-hindi: 'Noto Sans Devanagari', 'Inter Tight', sans-serif;
+
+  /* Durations & Easings */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+}
+
+@layer base {
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--surface-base);
+    color: var(--text-primary);
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--surface-base);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+  }
+
+  /* Accessible Focus Rings */
+  :focus-visible {
+    outline: 2px solid var(--pulse-mint);
+    outline-offset: 2px;
+  }
+}
+
+/* Film-Grain Noise Overlay (3-4% Opacity) */
+.film-grain {
+  position: relative;
+}
+
+.film-grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Live Vitals Surfaces */
+.vitals-card {
+  background-color: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  box-shadow: inset 0 1px 0 0 var(--border-highlight);
+  position: relative;
+  transition: border-color var(--duration-fast) var(--ease-spring), transform var(--duration-fast) var(--ease-spring);
+}
+
+.vitals-card:hover {
+  border-color: var(--border-strong);
+}
+
+.vitals-card-hero {
+  background: radial-gradient(circle at 100% 0%, oklch(0.24 0.03 260) 0%, var(--surface-1) 70%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  box-shadow: inset 0 1px 0 0 var(--border-highlight);
+}
+
+/* Cursor Spotlight Effect */
+.vitals-spotlight {
+  position: relative;
+  overflow: hidden;
+}
+
+.vitals-spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 245, 137, 0.08), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.vitals-spotlight:hover::after {
+  opacity: 1;
+}
+
+/* Continuous ECG Line SVG Animation */
+@keyframes ecgDash {
+  0% {
+    stroke-dashoffset: 400;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ecg-pulse-line {
+  stroke-dasharray: 200 200;
+  animation: ecgDash 3s linear infinite;
+}
+
+/* Conic Gradient Animated Border on Drag-over */
+@keyframes conicRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.conic-border-wrap {
+  position: relative;
+  border-radius: var(--radius-card);
+  padding: 1px;
+  overflow: hidden;
+}
+
+.conic-border-wrap.active::before {
+  content: '';
+  position: absolute;
+  inset: -150%;
+  background: conic-gradient(from 0deg, transparent 0deg, var(--pulse-mint) 90deg, transparent 180deg);
+  animation: conicRotate 2s linear infinite;
+}
+
+/* Scan Line Animation for OCR */
+@keyframes scanLaser {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.scan-laser-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--pulse-mint) 50%, transparent 100%);
+  box-shadow: 0 0 12px var(--pulse-mint);
+  animation: scanLaser 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+/* Holographic / Iridescent SHA-256 Badge */
+.holo-seal {
+  background: linear-gradient(135deg, rgba(59, 245, 137, 0.15) 0%, rgba(56, 189, 248, 0.2) 50%, rgba(244, 63, 94, 0.15) 100%);
+  border: 1px solid oklch(0.88 0.20 150 / 0.4);
+  box-shadow: 0 0 16px rgba(59, 245, 137, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.holo-seal::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(60deg, transparent 30%, rgba(255, 255, 255, 0.25) 50%, transparent 70%);
+  transform: rotate(30deg);
+  animation: holoShine 3.5s ease-in-out infinite;
+}
+
+@keyframes holoShine {
+  0%, 100% { transform: translateX(-100%) rotate(30deg); }
+  50% { transform: translateX(100%) rotate(30deg); }
+}
+
+/* Pulsing Red Blocker Glow */
+.blocker-glow {
+  box-shadow: 0 0 0 1px var(--signal-red), 0 0 20px var(--signal-red-glow);
+  animation: redPulse 2s ease-in-out infinite;
+}
+
+@keyframes redPulse {
+  0%, 100% { box-shadow: 0 0 0 1px var(--signal-red), 0 0 14px var(--signal-red-glow); }
+  50% { box-shadow: 0 0 0 1.5px var(--signal-red), 0 0 24px rgba(244, 63, 94, 0.4); }
+}
+
+/* Magnetic Hover Scale */
+.btn-vitals-primary {
+  background-color: var(--pulse-mint);
+  color: #06110a;
+  font-family: var(--font-display);
+  font-weight: 600;
+  border-radius: var(--radius-input);
+  padding: 10px 20px;
+  transition: transform var(--duration-fast) var(--ease-spring), filter var(--duration-fast);
+  box-shadow: 0 0 16px var(--pulse-glow-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.btn-vitals-primary:hover {
+  transform: scale(1.02);
+  filter: brightness(1.06);
+  box-shadow: 0 0 22px var(--pulse-glow);
+}
+
+.btn-vitals-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-vitals-secondary {
+  background-color: var(--surface-2);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-input);
+  padding: 9px 18px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  transition: all var(--duration-fast) var(--ease-spring);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.btn-vitals-secondary:hover {
+  background-color: var(--surface-3);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.btn-vitals-secondary:active {
+  transform: scale(0.97);
+}
+
+.btn-vitals-danger {
+  background-color: var(--signal-red);
+  color: #FFFFFF;
+  border-radius: var(--radius-input);
+  padding: 9px 18px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  box-shadow: 0 0 14px var(--signal-red-glow);
+  transition: all var(--duration-fast);
+  cursor: pointer;
+}
+
+.btn-vitals-danger:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+}
+
+/* Floating Input with Label */
+.vitals-input {
+  background-color: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-input);
+  color: var(--text-primary);
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  transition: border-color var(--duration-fast);
+}
+
+.vitals-input:focus {
+  outline: none;
+  border-color: var(--pulse-mint);
+  box-shadow: 0 0 0 1px var(--pulse-mint);
+}
+
+/* Chips */
+.vitals-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-chip);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-2);
+}
+
+.vitals-chip-pulse {
+  background-color: oklch(0.88 0.20 150 / 0.1);
+  border-color: oklch(0.88 0.20 150 / 0.3);
+  color: var(--pulse-mint);
+}
+
+/* Live Pulsing Dot */
+.pulsing-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background-color: var(--pulse-mint);
+  box-shadow: 0 0 8px var(--pulse-mint);
+  animation: pulseDot 1.8s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.5; }
+}
+
+/* Stagger Reveal */
+.stagger-reveal {
+  animation: revealBlur 400ms var(--ease-spring) forwards;
+}
+
+@keyframes revealBlur {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Elder-First Family Care Plan: Giant Task Cards & Time-of-Day Animations */
+.giant-task-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5DFD3;
+  border-radius: var(--radius-card);
+  box-shadow: 0 4px 20px -2px rgba(20, 33, 61, 0.06), 0 2px 6px -1px rgba(20, 33, 61, 0.04);
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 250ms ease;
+}
+
+@keyframes checkBounce {
+  0% { transform: scale(0.92); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes checkFillIn {
+  from {
+    background-color: #FFFFFF;
+    color: #1F6E43;
+    border-color: #1F6E43;
+  }
+  to {
+    background-color: #1F6E43;
+    color: #FFFFFF;
+    border-color: #185835;
+  }
+}
+
+.satisfying-check-btn {
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.satisfying-check-btn:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.satisfying-check-btn:active {
+  transform: translateY(1px) scale(0.96);
+}
+
+.satisfying-check-btn.checked {
+  animation: checkBounce 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: #1F6E43 !important;
+  color: #FFFFFF !important;
+  border-color: #185835 !important;
+  box-shadow: 0 4px 14px rgba(31, 110, 67, 0.35);
+}
+
+@keyframes sunriseRays {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+.sunrise-rays-anim {
+  transform-origin: center bottom;
+  animation: sunriseRays 3s ease-in-out infinite;
+}
+
+@keyframes noonRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.noon-sun-anim {
+  transform-origin: center center;
+  animation: noonRotate 24s linear infinite;
+}
+
+@keyframes moonGlow {
+  0%, 100% { filter: drop-shadow(0 0 2px rgba(109, 40, 217, 0.4)); opacity: 0.9; }
+  50% { filter: drop-shadow(0 0 8px rgba(109, 40, 217, 0.7)); opacity: 1; }
+}
+
+.moon-glow-anim {
+  animation: moonGlow 3.5s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.star-twinkle-anim {
+  animation: starTwinkle 2s ease-in-out infinite;
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 11pt;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+}

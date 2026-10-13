@@ -1,0 +1,42 @@
+{
+  "name": "gharcare",
+  "version": "1.0.0",
+  "description": "GharCare (घर-केयर) - Hospital Discharge Handover Protocol (Combined Frontend & Backend)",
+  "main": "server.js",
+  "scripts": {
+    "build:frontend": "npm --prefix frontend install && npm --prefix frontend run build",
+    "build:backend": "npm --prefix backend install && npm --prefix backend run build",
+    "build": "npm run build:frontend && npm run build:backend",
+    "start": "node server.js",
+    "start:backend": "npm --prefix backend start",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev": "npm --prefix backend run dev"
+  },
+  "dependencies": {
+    "@google-cloud/text-to-speech": "^5.4.0",
+    "@google-cloud/translate": "^8.3.0",
+    "@google/generative-ai": "^0.21.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "multer": "^1.4.5-lts.1",
+    "pdf-lib": "^1.17.1",
+    "pdf-parse": "^2.4.5",
+    "zod": "^3.23.8"
+  },
+  "keywords": [
+    "gharcare",
+    "discharge-summary",
+    "aayu-2026",
+    "hackathon",
+    "gemini",
+    "google-cloud",
+    "abdm"
+  ],
+  "author": "HeartBeat Hackers",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
