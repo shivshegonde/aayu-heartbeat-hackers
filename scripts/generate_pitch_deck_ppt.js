@@ -120,18 +120,18 @@ async function generatePitchDeckPPT() {
       fontFace: 'Arial'
     });
 
-    slide.addText('Next-Gen Hospital Discharge Handover Protocol & Family Recovery System', {
+    slide.addText('Specialized Healthcare AI (Google MedLM + Gemini 2.5 Flash) + CDSCO & PMBJP Indian Clinical Engine', {
       x: 1.0,
       y: 2.2,
       w: 11.3,
       h: 0.5,
-      fontSize: 18,
+      fontSize: 17,
       bold: true,
       color: ACCENT_TEAL,
       fontFace: 'Arial'
     });
 
-    slide.addText('Powered by Google Gemini 2.5 Flash, Vertex AI MedLM, Cloud TTS Neural2 & ABDM Clinical Rails', {
+    slide.addText('Domain-Specific Clinical Intelligence: Vertex AI MedLM, CDSCO Indian Formulary, PMBJP Jan Aushadhi & ABDM Rails', {
       x: 1.0,
       y: 2.7,
       w: 11.3,
@@ -144,20 +144,20 @@ async function generatePitchDeckPPT() {
     // 3 Highlight Feature Cards
     const cards = [
       {
-        title: '1.2s Multimodal Vision',
-        desc: 'Gemini 2.5 Flash extracts crumpled notes, handwriting & tables without OCR errors.',
+        title: 'Google MedLM + Gemini 2.5',
+        desc: 'MedLM clinical reasoning + Gemini 2.5 Flash multimodal vision extracts doctor notes & tables in 1.2s.',
         color: ACCENT_CYAN,
         x: 1.0
       },
       {
-        title: 'Zero-Hallucination Firewall',
-        desc: 'Deterministic code-level rules flag missing dosages, drug clashes & enforce Senior Nurse sign-off.',
+        title: 'CDSCO & Safety Rail',
+        desc: 'Deterministic verification maps Indian brands (Metolar, Pan-D, Augmentin) & enforces Senior Nurse lock.',
         color: ACCENT_AMBER,
         x: 4.9
       },
       {
-        title: 'Multilingual Awaaz Parchi',
-        desc: 'Spoken Hindi audio instructions, RFC 5545 Google Calendar sync & 24/7 Jan Aushadhi maps.',
+        title: 'PMBJP Savings & Awaaz Parchi',
+        desc: 'Spoken Hindi audio handover, up to 85% Jan Aushadhi generic savings, and Google Calendar sync.',
         color: ACCENT_EMERALD,
         x: 8.8
       }
@@ -438,104 +438,116 @@ async function generatePitchDeckPPT() {
   }
 
   // ==========================================
-  // SLIDE 4: Multimodal Vision AI Extraction
+  // SLIDE 4: Specialized Medical AI & Indian Clinical Engine
   // ==========================================
   {
     const slide = pptx.addSlide();
-    addHeader(slide, 'TECHNOLOGY DEEP DIVE', 'Multimodal Clinical Fact Extraction', 'Google Gemini 2.5 Flash: Cracking Complex Discharge Papers in 1.2 Seconds', 4);
+    addHeader(slide, 'SPECIALIZED CLINICAL AI', 'Specialized Medical AI & Indian Clinical Engine', 'Google MedLM (Vertex AI) + Gemini 2.5 Flash Vision + CDSCO & PMBJP Registry', 4);
 
-    // Left: Traditional OCR Failures
-    slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
-      x: 0.8,
-      y: 2.1,
-      w: 5.7,
-      h: 3.4,
-      fill: { color: CARD_BG },
-      line: { color: ACCENT_ROSE, width: 1 }
-    });
-    slide.addText('⚠️ WHY TRADITIONAL OCR PIPELINES FAIL', {
-      x: 1.1,
-      y: 2.3,
-      w: 5.1,
-      h: 0.4,
-      fontSize: 12,
-      bold: true,
-      color: ACCENT_ROSE,
-      fontFace: 'Arial'
-    });
-    slide.addText(
-      '• Crumpled & Folded Paper: Carbon copies and folds produce character garbage (e.g. "T4b M3t0l4r" instead of Metolar).\n\n' +
-      '• Fragmented Spatial Tables: OCR loses row/column relationships across multi-page summaries, mixing dosages across drugs.\n\n' +
-      '• No Medical Semantic Understanding: Traditional OCR cannot distinguish between a discontinued allergy medication and an active prescription.\n\n' +
-      '• Slow Multi-Step Lag: Chaining Tesseract OCR + Text Cleaner + LLM Parser takes 18-25 seconds with cascading errors.',
+    const clinicalPillars = [
       {
-        x: 1.1,
-        y: 2.8,
-        w: 5.1,
-        h: 2.5,
-        fontSize: 10.5,
+        badge: 'VERTEX AI HEALTHCARE',
+        title: 'Google MedLM Foundation Model',
+        points: [
+          'Trained on biomedical research literature, clinical trials & EHR notes (Med-PaLM 2 evolution)',
+          'Understands surgical post-op courses and procedural care protocols',
+          'Evaluates clinical contraindications & multi-drug regimens without prompt drift',
+          'Enforces structured JSON clinical schemas for downstream workflows'
+        ],
+        col: 'C084FC',
+        x: 0.8
+      },
+      {
+        badge: 'MULTIMODAL INGESTION',
+        title: 'Gemini 2.5 Flash Vision',
+        points: [
+          'Direct native pixel-to-fact parser cracking folded, crumpled & carbon-copy hospital papers in 1.2s',
+          'Pre-flight document classifier validates clinical authenticity & computes confidence score',
+          'Extracts spatial multi-column prescription tables and handwritten addendums',
+          '94.6% entity extraction accuracy on authentic Indian hospital summaries'
+        ],
+        col: ACCENT_TEAL,
+        x: 4.8
+      },
+      {
+        badge: 'INDIAN MEDICAL FORMULARY',
+        title: 'CDSCO & PMBJP Registry',
+        points: [
+          'Resolves proprietary Indian brands (Metolar, Pan-D, Augmentin, Zerodol) to active chemical salts',
+          'Validates approved Fixed-Dose Combinations (FDCs) & Schedule H1 antibiotic surveillance',
+          'PMBJP Jan Aushadhi generic pairing computes up to 85% family savings (₹28 vs ₹168/mo)',
+          'Standardized NRCeS SNOMED-CT India Extension codes for ABDM interoperability'
+        ],
+        col: ACCENT_AMBER,
+        x: 8.8
+      }
+    ];
+
+    clinicalPillars.forEach((cp) => {
+      slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
+        x: cp.x,
+        y: 2.1,
+        w: 3.7,
+        h: 3.6,
+        fill: { color: CARD_BG },
+        line: { color: cp.col, width: 1.5 }
+      });
+
+      slide.addText(cp.badge, {
+        x: cp.x + 0.3,
+        y: 2.3,
+        w: 3.1,
+        h: 0.25,
+        fontSize: 8.5,
+        bold: true,
+        color: cp.col,
+        fontFace: 'Arial'
+      });
+
+      slide.addText(cp.title, {
+        x: cp.x + 0.3,
+        y: 2.6,
+        w: 3.1,
+        h: 0.45,
+        fontSize: 13,
+        bold: true,
+        color: TEXT_WHITE,
+        fontFace: 'Arial'
+      });
+
+      const bText = cp.points.map((p) => `• ${p}`).join('\n\n');
+      slide.addText(bText, {
+        x: cp.x + 0.3,
+        y: 3.15,
+        w: 3.1,
+        h: 2.4,
+        fontSize: 9.5,
         color: TEXT_LIGHT,
         fontFace: 'Arial'
-      }
-    );
-
-    // Right: Gemini 2.5 Flash Multimodal Vision
-    slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
-      x: 6.8,
-      y: 2.1,
-      w: 5.7,
-      h: 3.4,
-      fill: { color: CARD_BG },
-      line: { color: ACCENT_TEAL, width: 1 }
+      });
     });
-    slide.addText('✨ GEMINI 2.5 FLASH MULTIMODAL EXTRACTION', {
-      x: 7.1,
-      y: 2.3,
-      w: 5.1,
-      h: 0.4,
-      fontSize: 12,
-      bold: true,
-      color: ACCENT_TEAL,
-      fontFace: 'Arial'
-    });
-    slide.addText(
-      '• Direct Native Pixel-to-Fact Ingestion: Vision encoder reads layout, bold headers, handwritten doctor addendums & signatures in one pass.\n\n' +
-      '• Pre-Flight Document Classifier: Automatically validates clinical document type, rejecting electric bills or selfies before processing.\n\n' +
-      '• Strict JSON Clinical Schema Enforcement: Extracted diagnoses, procedures, medicines, and red flags conform to typed clinical structure.\n\n' +
-      '• 1.2s Real-Time Latency: Rapid response enables immediate nurse review without blocking patient ward handover.',
-      {
-        x: 7.1,
-        y: 2.8,
-        w: 5.1,
-        h: 2.5,
-        fontSize: 10.5,
-        color: TEXT_LIGHT,
-        fontFace: 'Arial'
-      }
-    );
 
-    // Bottom stat bar
     slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
       x: 0.8,
-      y: 5.7,
+      y: 5.9,
       w: 11.7,
-      h: 0.9,
-      fill: { color: '042F2E' },
+      h: 0.8,
+      fill: { color: '020617' },
       line: { color: ACCENT_TEAL, width: 1 }
     });
-    slide.addText('BENCHMARK: 94.6% Entity Extraction Accuracy on Real Indian Tertiary Hospital Discharge Papers | Median Latency: 1.2 seconds', {
+    slide.addText('ABDM COMPLIANT: NRCeS SNOMED-CT India Extension • CDSCO Formulary • 14-Digit ABHA ID Health Locker Ready', {
       x: 1.0,
-      y: 5.95,
+      y: 6.15,
       w: 11.3,
-      h: 0.4,
-      fontSize: 11,
+      h: 0.35,
+      fontSize: 10.5,
       bold: true,
       color: ACCENT_TEAL,
       align: 'center',
       fontFace: 'Arial'
     });
 
-    slide.addNotes('Traditional OCR fails on folded papers, doctor handwriting, and carbon copies. Gemini 2.5 Flash multimodal vision directly processes raw pixels in 1.2 seconds, achieving 94.6% accuracy without brittle OCR preprocessing pipelines.');
+    slide.addNotes('General Western LLMs fail in Indian hospitals because they do not recognize Indian commercial drug brands like Metolar or Pan-D. We combine Google MedLM trained on biomedical literature with Gemini 2.5 multimodal vision and the CDSCO Indian formulary to achieve 94.6% entity accuracy in 1.2s.');
   }
 
   // ==========================================
@@ -743,85 +755,88 @@ async function generatePitchDeckPPT() {
   }
 
   // ==========================================
-  // SLIDE 7: Google Ecosystem Integration Rails
+  // SLIDE 7: Google Healthcare AI & Cloud Rails
   // ==========================================
   {
     const slide = pptx.addSlide();
-    addHeader(slide, 'ECOSYSTEM INTEGRATION', 'Google Cloud & National ABDM Ecosystem', 'End-to-End Orchestration of Gemini, Cloud TTS, Google Calendar & Maps Platforms', 7);
+    addHeader(slide, 'ECOSYSTEM INTEGRATION', 'Google Healthcare AI & National ABDM Rails', 'End-to-End Orchestration of MedLM, Gemini 2.5 Flash, Cloud TTS Neural2 & Google Maps', 7);
 
     const integrations = [
       {
-        tech: 'Google Gemini 2.5 Flash',
-        role: 'Multimodal Clinical Ingestion',
-        detail: 'Instant visual extraction of complex medical documents, handwritten addendums, and folded summaries in 1.2s.',
+        tech: 'Google MedLM',
+        role: 'Biomedical Foundation LLM',
+        detail: 'Vertex AI healthcare model trained on medical clinical literature for deep discharge reasoning.',
+        col: 'C084FC',
+        x: 0.8
+      },
+      {
+        tech: 'Gemini 2.5 Flash',
+        role: 'Multimodal Vision Ingestion',
+        detail: '1.2s extraction of doctor handwriting, crumpled summaries & multi-column tables directly.',
         col: ACCENT_TEAL,
-        x: 0.8,
-        y: 2.1
+        x: 3.2
       },
       {
-        tech: 'Google Cloud TTS (Neural2)',
-        role: 'Regional Audio Voice Synthesis',
-        detail: 'High-fidelity Hindi & Indian English voice generation powering "Awaaz Parchi" for non-literate family caregivers.',
+        tech: 'Cloud TTS Neural2',
+        role: 'Regional Spoken Audio',
+        detail: 'High-fidelity natural Hindi voice synthesis delivering spoken care instructions for elders.',
         col: ACCENT_CYAN,
-        x: 6.8,
-        y: 2.1
+        x: 5.6
       },
       {
-        tech: 'Google Calendar (RFC 5545)',
-        role: 'Automated Medication Alarms',
-        detail: 'Generates standard ICS calendar alarms with 1-click sync to Google Calendar on patient smartphones.',
+        tech: 'Google Calendar',
+        role: 'Medication Alarms Engine',
+        detail: 'RFC 5545 schedule sync: 1-click adds all pill alarms and review appointments to phones.',
         col: ACCENT_AMBER,
-        x: 0.8,
-        y: 4.2
+        x: 8.0
       },
       {
-        tech: 'Google Maps & Jan Aushadhi',
-        role: 'Affordable Pharmacy Navigation',
-        detail: 'Geo-locates 24/7 emergency pharmacies & PMBJP Jan Aushadhi Kendras within 3km, cutting medicine costs up to 85%.',
+        tech: 'Google Maps API',
+        role: '24/7 Jan Aushadhi Locator',
+        detail: 'Pins nearest verified generic pharmacies within 3km, cutting family costs by up to 85%.',
         col: ACCENT_EMERALD,
-        x: 6.8,
-        y: 4.2
+        x: 10.4
       }
     ];
 
     integrations.forEach((it) => {
       slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
         x: it.x,
-        y: it.y,
-        w: 5.7,
-        h: 1.9,
+        y: 2.1,
+        w: 2.2,
+        h: 3.8,
         fill: { color: CARD_BG },
-        line: { color: it.col, width: 1 }
+        line: { color: it.col, width: 1.5 }
       });
 
       slide.addText(it.tech, {
-        x: it.x + 0.3,
-        y: it.y + 0.2,
-        w: 5.1,
-        h: 0.35,
-        fontSize: 14,
+        x: it.x + 0.15,
+        y: 2.3,
+        w: 1.9,
+        h: 0.45,
+        fontSize: 12,
         bold: true,
         color: it.col,
         fontFace: 'Arial'
       });
 
       slide.addText(it.role.toUpperCase(), {
-        x: it.x + 0.3,
-        y: it.y + 0.55,
-        w: 5.1,
-        h: 0.3,
-        fontSize: 9,
+        x: it.x + 0.15,
+        y: 2.8,
+        w: 1.9,
+        h: 0.35,
+        fontSize: 8,
         bold: true,
         color: TEXT_MUTED,
         fontFace: 'Arial'
       });
 
       slide.addText(it.detail, {
-        x: it.x + 0.3,
-        y: it.y + 0.9,
-        w: 5.1,
-        h: 0.85,
-        fontSize: 10,
+        x: it.x + 0.15,
+        y: 3.25,
+        w: 1.9,
+        h: 2.3,
+        fontSize: 9.5,
         color: TEXT_LIGHT,
         fontFace: 'Arial'
       });
@@ -829,25 +844,25 @@ async function generatePitchDeckPPT() {
 
     slide.addShape(pptx.shapes.ROUNDED_RECTANGLE, {
       x: 0.8,
-      y: 6.25,
+      y: 6.1,
       w: 11.7,
-      h: 0.45,
+      h: 0.6,
       fill: { color: '020617' },
       line: { color: CARD_BORDER, width: 0.5 }
     });
-    slide.addText('ABDM COMPLIANCE: Ready for National Ayushman Bharat Digital Mission • FHIR R4 Discharge Summary Export', {
+    slide.addText('ALL 5 GOOGLE RAILS FULLY INTEGRATED IN GHARCARE • GCP PROJECT: gharcare-aayu-2026', {
       x: 1.0,
-      y: 6.35,
+      y: 6.25,
       w: 11.3,
-      h: 0.25,
-      fontSize: 9,
+      h: 0.3,
+      fontSize: 9.5,
       bold: true,
       color: ACCENT_TEAL,
       align: 'center',
       fontFace: 'Arial'
     });
 
-    slide.addNotes('We leverage the full Google ecosystem: Gemini 2.5 for vision, Cloud TTS for regional audio, Google Calendar RFC 5545 for medication reminders, and Google Maps to locate verified 24/7 Jan Aushadhi generic pharmacies.');
+    slide.addNotes('We leverage the entire Google ecosystem: Google MedLM on Vertex AI, Gemini 2.5 Flash for vision, Cloud TTS for regional audio, Google Calendar RFC 5545 for auto-syncing medication reminders, and Google Maps for 24/7 Jan Aushadhi pharmacies.');
   }
 
   // ==========================================
