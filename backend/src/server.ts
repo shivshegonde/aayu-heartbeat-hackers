@@ -19,7 +19,18 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4002;
 
-app.use(cors({ origin: '*' }));
+app.use(cors({
+  origin: '*',
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'ngrok-skip-browser-warning'],
+  exposedHeaders: ['ngrok-skip-browser-warning'],
+}));
+
+// Automatic ngrok browser warning suppression header on all responses
+app.use((req: Request, res: Response, next) => {
+  res.setHeader('ngrok-skip-browser-warning', 'true');
+  next();
+});
+
 app.use(express.json({ limit: '20mb' }));
 app.use(express.urlencoded({ limit: '20mb', extended: true }));
 
