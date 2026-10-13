@@ -365,6 +365,19 @@ if (frontendDistPath) {
   console.log(`[GharCare Unified Server] Serving static frontend bundle from: ${frontendDistPath}`);
   app.use(express.static(frontendDistPath));
 
+  // Explicit Pitch Deck routes (/info and /deck)
+  app.get(['/info', '/deck'], (req: Request, res: Response) => {
+    const indexHtml = path.join(frontendDistPath, 'index.html');
+    if (fs.existsSync(indexHtml)) {
+      return res.sendFile(indexHtml);
+    }
+    const publicDeck = path.resolve(__dirname, '../../frontend/public/deck.html');
+    if (fs.existsSync(publicDeck)) {
+      return res.sendFile(publicDeck);
+    }
+    res.redirect('/');
+  });
+
   // SPA Route Fallback for non-API requests (client-side routing)
   app.get('*', (req: Request, res: Response) => {
     if (req.path.startsWith('/api')) {
@@ -379,12 +392,22 @@ if (frontendDistPath) {
   });
 } else {
   console.warn('[GharCare Unified Server] Notice: Frontend dist folder not found. API routes active only.');
+  
+  // Direct presentation deck route fallback
+  app.get(['/info', '/deck'], (req: Request, res: Response) => {
+    const publicDeck = path.resolve(__dirname, '../../frontend/public/deck.html');
+    if (fs.existsSync(publicDeck)) {
+      return res.sendFile(publicDeck);
+    }
+    res.redirect('/');
+  });
+
   app.get('/', (req: Request, res: Response) => {
     res.json({
       status: 'online',
       message: 'GharCare API is running. To serve the unified frontend, run npm run build:frontend first.',
       healthEndpoint: '/api/health',
-      presentationDeck: '/deck.html'
+      presentationDeck: '/info'
     });
   });
 }

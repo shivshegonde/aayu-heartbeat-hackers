@@ -14,12 +14,49 @@ import { DischargeCase, CaseListItem } from './types';
 export const App: React.FC = () => {
   const [currentCase, setCurrentCase] = useState<DischargeCase | null>(null);
   const [caseList, setCaseList] = useState<CaseListItem[]>([]);
-  const [activeTab, setActiveTab] = useState<'cockpit' | 'family' | 'upload' | 'deck'>('upload');
+  // Determine initial view based on browser URL pathname or hash (e.g., /info or /deck)
+  const getInitialTab = (): 'cockpit' | 'family' | 'upload' | 'deck' => {
+    if (typeof window === 'undefined') return 'upload';
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    if (path === '/info' || path.startsWith('/info') || path === '/deck' || path.startsWith('/deck') || hash === '#info' || hash === '#deck') {
+      return 'deck';
+    }
+    if (path.includes('/family') || hash.includes('family')) return 'family';
+    if (path.includes('/cockpit') || hash.includes('cockpit')) return 'cockpit';
+    return 'upload';
+  };
+
+  const [activeTab, setActiveTab] = useState<'cockpit' | 'family' | 'upload' | 'deck'>(getInitialTab);
   const [language, setLanguage] = useState<'hi' | 'en'>('hi');
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isPharmacyOpen, setIsPharmacyOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [, setLoadingInitial] = useState(true);
+
+  // Synchronize browser history and back/forward buttons with tabs
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+      if (path === '/info' || path.startsWith('/info') || path === '/deck' || path.startsWith('/deck') || hash === '#info' || hash === '#deck') {
+        setActiveTab('deck');
+      } else if (path.includes('/family') || hash.includes('family')) {
+        setActiveTab('family');
+      } else if (path.includes('/cockpit') || hash.includes('cockpit')) {
+        setActiveTab('cockpit');
+      } else {
+        setActiveTab('upload');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('hashchange', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handlePopState);
+    };
+  }, []);
 
   // Fetch initial case list & default case
   const refreshCases = async () => {
@@ -70,7 +107,7 @@ export const App: React.FC = () => {
 
   const handleCaseSelected = (c: DischargeCase, targetTab: 'cockpit' | 'family' = 'cockpit') => {
     setCurrentCase(c);
-    setActiveTab(targetTab);
+    handleNavigateTab(targetTab);
   };
 
   const handleSelectCaseId = async (caseId: string) => {
@@ -95,6 +132,21 @@ export const App: React.FC = () => {
       }
     }
     setActiveTab(tab);
+
+    // Update browser URL bar so /info is a direct linkable route
+    try {
+      if (tab === 'deck') {
+        if (window.location.pathname !== '/info') {
+          window.history.pushState({ tab: 'deck' }, '', '/info');
+        }
+      } else {
+        if (window.location.pathname === '/info' || window.location.pathname === '/deck') {
+          window.history.pushState({ tab }, '', '/');
+        }
+      }
+    } catch {
+      // pushState may be restricted in sandboxed environments
+    }
   };
 
   // Dedicated Fullscreen Pitch Deck Mode

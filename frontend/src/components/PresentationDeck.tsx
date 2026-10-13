@@ -245,7 +245,7 @@ export const PresentationDeck: React.FC<PresentationDeckProps> = ({
                   घर-केयर
                 </span>
                 <span className="text-[10px] font-black px-2 py-0.2 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30">
-                  AAYU 2026 • T03 PITCH
+                  AAYU 2026 • T03 PITCH (/info)
                 </span>
               </div>
             </div>

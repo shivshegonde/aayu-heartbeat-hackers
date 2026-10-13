@@ -202,8 +202,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                     ? 'bg-vitals-surface2 text-vitals-ink border border-vitals-border font-bold'
                     : 'text-vitals-muted hover:text-vitals-ink'
                 }`}
+                title="View Pitch Deck & Project Info (Route: /info)"
               >
                 <span>Pitch Deck</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-pulse-amber/15 text-pulse-amber border border-pulse-amber/30 font-bold">
+                  /info
+                </span>
               </button>
             </nav>
 
