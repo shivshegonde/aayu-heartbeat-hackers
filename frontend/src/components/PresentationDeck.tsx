@@ -33,7 +33,8 @@ import {
   Zap,
   ShieldAlert,
   Globe,
-  Check
+  Check,
+  Download
 } from 'lucide-react';
 
 interface PresentationDeckProps {
@@ -313,6 +314,17 @@ export const PresentationDeck: React.FC<PresentationDeckProps> = ({
           >
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
+
+          {/* Download Slides as PPTX */}
+          <a
+            href="/GharCare_Pitch_Deck_AAYU_2026.pptx"
+            download="GharCare_Pitch_Deck_AAYU_2026.pptx"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold text-amber-300 hover:text-white hover:border-amber-500/50 transition-all cursor-pointer"
+            title="Download PowerPoint Presentation (.pptx)"
+          >
+            <Download className="w-3.5 h-3.5 text-amber-400" />
+            <span>PPTX</span>
+          </a>
 
           {/* Print Slides as PDF */}
           <button

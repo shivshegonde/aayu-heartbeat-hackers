@@ -362,6 +362,22 @@ app.get('/api/pharmacies', (req: Request, res: Response) => {
   res.json(pharmacies);
 });
 
+// 10b. Download Presentation Deck (.pptx)
+app.get(['/api/deck/download', '/deck.pptx'], (req: Request, res: Response) => {
+  const possiblePptxPaths = [
+    path.resolve(__dirname, '../../GharCare_Pitch_Deck_AAYU_2026.pptx'),
+    path.resolve(__dirname, '../GharCare_Pitch_Deck_AAYU_2026.pptx'),
+    path.resolve(process.cwd(), 'GharCare_Pitch_Deck_AAYU_2026.pptx'),
+    path.resolve(process.cwd(), 'frontend/public/GharCare_Pitch_Deck_AAYU_2026.pptx'),
+  ];
+  const found = possiblePptxPaths.find((p) => fs.existsSync(p));
+  if (found) {
+    res.download(found, 'GharCare_Pitch_Deck_AAYU_2026.pptx');
+  } else {
+    res.status(404).json({ error: 'Presentation file not found' });
+  }
+});
+
 // 11. Static Frontend Hosting & Single-Server SPA Fallback
 const possibleFrontendDistPaths = [
   path.resolve(__dirname, '../../frontend/dist'),

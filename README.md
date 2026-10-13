@@ -12,6 +12,7 @@
 |---|:---:|---|
 | **Setup & Run** | ✅ Complete | Single unified entrypoint (`server.js`), 1-command build, zero-config local run on port `4003` |
 | **Interactive Pitch Deck** | ✅ Live | Available directly at `/info` (`http://localhost:4003/info` or standalone `/deck.html`) |
+| **PowerPoint Pitch Deck** | ✅ Stored | [`GharCare_Pitch_Deck_AAYU_2026.pptx`](./GharCare_Pitch_Deck_AAYU_2026.pptx) (10 widescreen slides + notes) |
 | **Libraries & Tech Stack** | ✅ Complete | Node.js 18+, Express, React 18, Vite, TypeScript, Tailwind CSS, Zod, Multer, Lucide |
 | **Datasets** | ✅ Complete | 5 authentic clinical discharge summaries (Cholecystectomy, PCI, Dengue, TKR, Pediatric) |
 | **Specialized Medical AI** | ✅ Complete | **Google MedLM (Vertex AI)**, **CDSCO Registry**, **PMBJP Jan Aushadhi Savings**, **NRCeS SNOMED-CT** |
